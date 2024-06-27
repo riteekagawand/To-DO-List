@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import "./globals.css";
+import "./globals.css"; // Assuming global styles are imported here
 import { Inter } from "next/font/google";
 import React from "react";
 
@@ -13,7 +13,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-blue-100`}>
+        {/* Adjust bg-blue-800 to the appropriate Tailwind CSS class for your desired color */}
         <div className="max-w-3xl mx-auto p-4">
           <Navbar />
           <div className="mt-8">{children}</div>

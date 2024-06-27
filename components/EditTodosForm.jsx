@@ -37,7 +37,7 @@ export default function EditTodosForm({ id, title, description }) {
       <input
         onChange={(e) => setNewTitle(e.target.value)}
         value={newTitle}
-        className="border border-slate-500 px-8 py-2"
+        className="border border-slate-500 px-8 py-2 rounded-xl"
         type="text"
         placeholder="To Do's Title"
       />
@@ -50,7 +50,7 @@ export default function EditTodosForm({ id, title, description }) {
         placeholder="To Do's Description"
       />
 
-      <button className="bg-green-600 font-bold text-white py-3 px-6 w-fit">
+      <button className="bg-[#FBB02D] rounded-2xl  font-bold text-white py-3 px-6 w-fit">
         Update Topic
       </button>
     </form>
