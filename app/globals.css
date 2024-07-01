@@ -6,3 +6,10 @@
     transform: scale(1.2);
     transition: transform 0.2s;
   }
+  .underline-on-hover:hover {
+    text-decoration: underline;
+}
+.icons:hover {
+  transform: scale(1.1);
+  transition: transform 0.5s;
+}
