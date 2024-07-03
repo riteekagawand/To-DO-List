@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["jest", "testing-library"],
+  "extends": [
+    "plugin:jest/recommended",
+    "plugin:testing-library/react"
+  ]
 }
