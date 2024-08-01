@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import { getTopics } from '../../components/TodoList'; // Adjust the path as necessary
 import Link from "next/link";
@@ -55,6 +55,22 @@ const ActivePage = () => {
     }
   };
 
+  const handleTogglePriority = async (id) => {
+    const topic = activeTopics.find((t) => t._id === id);
+    if (topic) {
+      const updatedPriority = !topic.priority;
+      const updatedTopic = await updateTodo(id, topic.completed, updatedPriority);
+
+      if (updatedTopic) {
+        setActiveTopics((prevTopics) =>
+          prevTopics.map((t) =>
+            t._id === id ? { ...t, priority: updatedTopic.priority } : t
+          )
+        );
+      }
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto p-4">
       {activeTopics.length > 0 ? (
@@ -80,7 +96,11 @@ const ActivePage = () => {
               </div>
 
               <div className="flex gap-4">
-                <Priority id={t._id} isPriority={t.priority} />
+                <Priority
+                  id={t._id}
+                  isPriority={t.priority}
+                  onTogglePriority={handleTogglePriority}
+                />
                 <RemoveBtn id={t._id} />
                 <Link href={`/editTodo/${t._id}`}>
                   <HiPencilAlt size={28} className="icon" />
