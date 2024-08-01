@@ -47,12 +47,12 @@ const updateTodo = async (id, completed, priority) => {
 const TopicsList = () => {
   const [topics, setTopics] = useState([]);
 
-  useEffect(() => {
-    const fetchTopics = async () => {
-      const { topics } = await getTopics();
-      setTopics(topics);
-    };
+  const fetchTopics = async () => {
+    const { topics } = await getTopics();
+    setTopics(topics);
+  };
 
+  useEffect(() => {
     fetchTopics();
   }, []); 
 
@@ -62,24 +62,21 @@ const TopicsList = () => {
     const updatedTopic = await updateTodo(id, updatedCompleted, topic.priority);
   
     if (updatedTopic) {
-      setTopics((prevTopics) =>
-        prevTopics.map((t) =>
-          t._id === id ? { ...t, completed: updatedTopic.completed } : t
-        )
-      );
+      fetchTopics(); // Refresh the list after updating
     }
   };
 
-  const handleTogglePriority = (updatedTopic) => {
-    setTopics((prevTopics) =>
-      prevTopics.map((topic) =>
-        topic._id === updatedTopic._id ? updatedTopic : topic
-      )
-    );
+  const handleTogglePriority = async (id, priority) => {
+    const topic = topics.find((t) => t._id === id);
+    const updatedTopic = await updateTodo(id, topic.completed, !priority);
+
+    if (updatedTopic) {
+      fetchTopics(); // Refresh the list after updating
+    }
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4" >
+    <div className="max-w-3xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 rounded-lg">All Items</h1>
       {topics.map((t) => (
         <div
@@ -103,8 +100,8 @@ const TopicsList = () => {
           </div>
 
           <div className="flex gap-4">
-            <Priority id={t._id} isPriority={t.priority} onTogglePriority={handleTogglePriority}/>
-            <RemoveBtn id={t._id} />
+            <Priority id={t._id} isPriority={t.priority} onTogglePriority={() => handleTogglePriority(t._id, t.priority)} />
+            <RemoveBtn id={t._id} onRemove={fetchTopics} />
             <Link href={`/editTodo/${t._id}`}>
               <HiPencilAlt size={28} className="icon" />
             </Link>
